@@ -20,7 +20,7 @@
 					</div>
 					<p><%= campground.description %></p>
 					<p>
-						<em>Submitted By <%= campground.author.username %></em>
+						<em>Submitted By <%= campground.author.username %>, <%= moment(campground.createdAt).fromNow() %></em>
 					</p>
 					<% if(currentUser && campground.author.id.equals(currentUser._id)) {%>
 						<a class="btn btn-sm btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
@@ -41,7 +41,7 @@
 					<div class="col-md-12 m-2">
 						<div class="d-flex">
 							<strong><%= comment.author.username %></strong>
-							<span class="ml-auto pr-3">10 days ago</span>
+							<span class="ml-auto pr-3"><%= moment(comment.createdAt).fromNow() %></span>
 						</div>
 						<p>
 							<%= comment.text %>

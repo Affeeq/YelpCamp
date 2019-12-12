@@ -6,6 +6,7 @@ var express 		= require("express"),
 	LocalStrategy	= require("passport-local"),
 	methodOverride 	= require("method-override"),
 	flash 			= require("connect-flash"),
+	moment			= require("moment"),
 	Campground 		= require("./models/campground"),
 	Comment 		= require("./models/comment"),
 	User 			= require("./models/user"),
@@ -44,6 +45,7 @@ app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
+	res.locals.moment = require("moment");
 	next();
 });
 
