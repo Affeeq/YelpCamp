@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 var express 		= require("express"),
 	app 			= express(),
 	bodyParser 		= require("body-parser"),
@@ -45,7 +47,7 @@ app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
-	res.locals.moment = require("moment");
+	res.locals.moment = moment;
 	next();
 });
 
