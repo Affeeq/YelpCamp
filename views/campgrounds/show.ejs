@@ -28,28 +28,44 @@
 				</div>
 			</div>
 			<div class="card bg-light border rounded-lg mb-2">
-				<div class="text-right">
-					<a class="btn btn-success btn-sm mt-2 mr-2" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
-				</div>
-				<% campground.comments.forEach(function(comment) { %>
-				<div class="col-md-12 card-body">
-					<div class="d-flex card-text">
-						<strong><%= comment.author.username %></strong>
-						<span class="ml-auto"><%= moment(comment.createdAt).fromNow() %></span>
+				<div class="card-body">
+					<div class="text-right">
+						<a class="btn btn-success btn-sm mt-2 mr-2" href="/campgrounds/<%= campground._id %>/comments/new">Add New Comment</a>
 					</div>
-					<p>
-						<%= comment.text %>
-					</p>
-					<% if(currentUser && comment.author.id.equals(currentUser._id)) {%>
-					<a class="btn btn-sm btn-warning mb-2" href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit">
-						Edit
-					</a>
-					<form class="delete-form" action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-						<input type="submit" class="btn btn-sm btn-danger mb-2" value="Delete">
-					</form>
-					<% } %>
+					<hr>
+					<div class="row">
+						<% campground.comments.forEach(function(comment) { %>
+						<div class="col-md-12 mb-2">
+							<div class="card">
+								<div class="card-body">
+									<div class="d-flex">
+										<strong class="card-title"><%= comment.author.username %></strong>
+										<span class="ml-auto"><%= moment(comment.createdAt).fromNow() %></span>
+									</div>
+									<div class="row">
+										<div class="col-sm-9">
+											<p class="card-text"><%= comment.text %></p>
+										</div>
+										<div class="col-sm-3">
+											<div class="d-sm-flex">
+											<% if(currentUser && comment.author.id.equals(currentUser._id)) {%>
+											<a class="btn btn-sm btn-warning ml-auto" href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit">Edit</a>
+											<form class="delete-form" action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+												<input type="submit" class="btn btn-sm btn-danger ml-sm-1" value="Delete">
+											</form>
+											<% } %>
+										</div>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+						<% }) %>
+						
+						
+					</div>
 				</div>
-				<% }) %>
 			</div>
 		</div>
 	</div>
