@@ -24,7 +24,14 @@ router.get("/register", function(req,res) {
 
 //handle sign up logic
 router.post("/register", function(req,res) {
-	var newUser = new User({username: req.body.username});
+	var newUser = new User(
+		{
+			username: req.body.username, 
+			firstName: req.body.firstName,
+			lastName: req.body.lastName,
+			email: req.body.email,
+			avatar: req.body.avatar
+		});
 	User.register(newUser, req.body.password, function(err, user) {
 		if(err) {
 			req.flash("error", err.message);
@@ -57,6 +64,17 @@ router.get("/logout", function(req,res) {
 	req.logout();
 	req.flash("success", "Logged You Out");
 	res.redirect("/campgrounds");
+});
+
+// user profile route
+router.get("/users/:id", function(req,res) {
+	User.findById(req.params.id, function(err, foundUser) {
+		if(err) {
+			req.flash("error", "No user found");
+			res.redirect("/");
+		}
+		res.render("users/show", {user: foundUser});
+	});
 });
 
 // password reset
