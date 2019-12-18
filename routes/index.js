@@ -66,23 +66,6 @@ router.get("/logout", function(req,res) {
 	res.redirect("/campgrounds");
 });
 
-// user profile route
-router.get("/users/:id", function(req,res) {
-	User.findById(req.params.id, function(err, foundUser) {
-		if(err) {
-			req.flash("error", "No user found");
-			res.redirect("/");
-		}
-		Campground.find().where("author.id").equals(foundUser._id).exec(function(err, campgrounds) {
-			if(err) {
-				req.flash("error", "No user found");
-				res.redirect("/");
-			}
-			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
-		})
-	});
-});
-
 // password reset
 // rendering the forgot password page
 router.get("/forgot", function(req,res) {
@@ -90,7 +73,7 @@ router.get("/forgot", function(req,res) {
 });
 
 // submitting user's email and getting the password reset link email
-router.post("/forgot", function(res,req) {
+router.post("/forgot", function(req,res,next) {
 	async.waterfall([
 		// creating a token for user to reset password
 		function(done) {
@@ -101,7 +84,7 @@ router.post("/forgot", function(res,req) {
 		},
 		// finding the user associated with the email submmited
 		function(token, done) {
-			User.findOne({ email: req.body.email}, function(err, user) {
+			User.findOne({ email: req.body.email }, function(err, user) {
 				if(!user) {
 					req.flash("error", "No account with that email address");
 					return res.redirect("/forgot");
@@ -144,5 +127,95 @@ router.post("/forgot", function(res,req) {
 	});
 });
 
+router.get("/reset/:token", function(req,res) {
+	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+		if(!user) {
+			req.flash("error", "Password reset token is invalid or has expired");
+			return res.redirect("/forgot");
+		}
+		res.render("reset", {token: req.params.token});
+	});
+});
+
+router.post("/reset/:token", function(req,res) {
+	async.waterfall([
+		// reset password handling
+		function(done) {
+			// find user with matching token and before token expiry time
+			User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+				if(!user) {
+				  req.flash('error', 'Password reset token is invalid or has expired.');
+				  return res.redirect('back');
+				}
+				// checking if user input the right password in both inputs
+				if(req.body.password === req.body.confirm) {
+					// set the password input into the user's password database
+					user.setPassword(req.body.password, function(err) {
+						// clear the user's resetPasswordToken and resetPasswordExpires value
+						user.resetPasswordToken = undefined;
+						user.resetPasswordExpires = undefined;
+						
+						// save information for user on database
+						user.save(function(err) {
+							// log user in into the app
+							req.logIn(user, function(err) {
+								// finishing up the function to go to the next function
+								done(err, user);
+							});
+						});
+					});
+				}
+				else {
+					req.flash("error", 'Passwords do not match');
+					return res.redirect('back');
+				}
+			});
+		},
+		// sending a success reset password email to user
+		function(user, done) {
+			// verifying app's email service account
+			var smtpTransport = nodemailer.createTransport({
+				service: "Gmail",
+				auth: {
+					user: "affeeqabedeenismail@gmail.com",
+					pass: process.env.GMAILPW
+				}
+			});
+			// creating the email for the app's email service account to user's email
+			var mailOptions = {
+				to: user.email,
+				from: "affeeqabedeenismail@gmail.com",
+				subject: "Your password has changed",
+				text: "Hello, \n\n" + "This is a confirmation that the password for your account " + user.email + " has just been changed.\n"
+			};
+			// sending email to user
+			smtpTransport.sendMail(mailOptions, function(err) {
+				// giving the success message and finish up the function with done
+				req.flash("success", "Your password has been changed.");
+				done(err);
+			});
+		}
+	], function(err) {
+		// after finishing up all functions, redirect user to cammpgrounds
+		res.redirect("/campgrounds");
+	});
+});
+
+// user profile route
+router.get("/users/:id", function(req,res) {
+	User.findById(req.params.id, function(err, foundUser) {
+		if(err) {
+			req.flash("error", "No user found");
+			res.redirect("/");
+		}
+		Campground.find().where("author.id").equals(foundUser._id).exec(function(err, campgrounds) {
+			if(err) {
+				req.flash("error", "No user found");
+				res.redirect("/");
+			}
+			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
+		})
+	});
+});
 
 module.exports = router;
