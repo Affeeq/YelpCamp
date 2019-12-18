@@ -70,6 +70,7 @@ router.put("/:comment_id", middleware.checkCommentOwnership, function(req,res) {
 			res.redirect("back");
 		}
 		else {
+			req.flash("success", "Comment Updated")
 			res.redirect("/campgrounds/" + req.params.id);
 		}
 	});
