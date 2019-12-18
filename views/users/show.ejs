@@ -1,13 +1,18 @@
 <% include ../partials/header %>
 
-<div class="row">
-	<div class="col-md-4">
-		<h4><%= user.firstName %> <%= user.lastName %></h4>
-		<img src="<%= user.avatar %>" alt="user profile image">
-	</div>
-	<div class="col-md-8">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<div class="container">
+	<div class="row justify-content-center">
+		<div class="col-3">
+			<div class="card">
+				<img class="card-img-top img-thumbnail" src="<%= user.avatar %>" alt="user profile image">
+				<div class="card-body">
+					<h5 class="card-title"><%= user.firstName %> <%= user.lastName %></h5>
+					<p class="card-text"><a href="mailto:<%= user.email %>"><%= user.email %></a></p>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
+
 
 <% include ../partials/footer %>
