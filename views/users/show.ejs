@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 
 <div class="container">
-	<div class="row justify-content-center">
+	<div class="row">
 		<div class="col-3">
 			<div class="card">
 				<img class="card-img-top img-thumbnail" src="<%= user.avatar %>" alt="user profile image">
@@ -10,6 +10,21 @@
 					<p class="card-text"><a href="mailto:<%= user.email %>"><%= user.email %></a></p>
 				</div>
 			</div>
+		</div>
+		<div class="col-9 text-center">
+			<% campgrounds.forEach(function(campground) { %>
+				<div class="col-lg-3 col-md-4 col-sm-6">
+					<div class="card mb-2">
+						<img class="card-img-top" src="<%= campground.image %>">
+						<div class="card-body">
+							<h4 class="card-title"><%= campground.name %></h4>
+						</div>
+						<p>
+							<a href="/campgrounds/<%= campground._id %>" class="btn btn-primary">More info</a>
+						</p>
+					</div>
+				</div>
+			<% }); %>
 		</div>
 	</div>
 </div>
