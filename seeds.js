@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Campground = require("./models/campground");
 var Comment = require("./models/comment");
 
-var data = [
+var seeds = [
 	{
 		name: "Cloud's Rest",
 	 	image: "https://pixabay.com/get/57e1dd4a4350a514f6da8c7dda793f7f1636dfe2564c704c722b79dc974dc750_340.jpg",
@@ -20,42 +20,31 @@ var data = [
 	}
 ];
 
-function seedDB() {
-	//remove all campgrounds
-	Campground.deleteMany({}, function(err) {
-		if(err) {
-			console.log(err);
+async function seedDB() {
+	try {
+		await Campground.deleteMany({});
+		console.log("Campgrund removed");
+		await Comment.deleteMany({});
+		console.log("Comment removed")
+
+		for(const seed of seeds) {
+			let campground = await Campground.create(seed);
+			console.log("Campground Created");
+			let comment = await Comment.create(
+				{
+					text: "This place is great but I wish there is Internet",
+					author: "Homer"
+				}
+			)
+			console.log("Comment Created");
+			campground.comments.push(comment);
+			campground.save();
+			console.log("Comment added to campground");
 		}
-		console.log("Remove campgrounds");
-		data.forEach(function(seed) {
-			Campground.create(seed, function(err, campground) {
-				if(err) {
-					console.log(err);
-				}
-				else {
-					console.log("Added a campground");
-					//create a comment
-					Comment.create(
-						{
-							text: "This place is great but I wish there is Internet",
-							author: "Homer"
-						}, function(err, comment) {
-							if(err) {
-								console.log(err);
-							}
-							campground.comments.push(comment);
-							campground.save();
-							console.log("Created new comment");
-						});
-				}
-			});
-		});
-	});
-	// add a few campgrounds
+	} catch (err) {
+		console.log(err);
+	}
 	
-	
-	
-	//add a few comments
 }
 
 module.exports = seedDB;

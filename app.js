@@ -9,6 +9,7 @@ var express 		= require("express"),
 	methodOverride 	= require("method-override"),
 	flash 			= require("connect-flash"),
 	moment			= require("moment"),
+	cookieParser 	= require("cookie-parser"),
 	Campground 		= require("./models/campground"),
 	Comment 		= require("./models/comment"),
 	User 			= require("./models/user"),
@@ -27,6 +28,7 @@ app.set("view engine", "ejs");
 mongoose.set('useFindAndModify', false); // took out the deprecation warning when updating forms
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(cookieParser("secret"));
 app.use(flash());
 // seedDB(); // seed the database
 
@@ -56,6 +58,6 @@ app.use("/" ,indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(3000 || process.env.PORT, function() {
 	console.log("The YelpCamp server listening on port 3000");
 });
