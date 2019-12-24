@@ -3,6 +3,7 @@ var express = require("express"),
 	passport = require("passport"),
 	User = require("../models/user"),
 	Campground = require("../models/campground"),
+	Notification = require("../models/notification"),
 	nodemailer = require("nodemailer"),
 	async = require("async"),
 	crypto = require("crypto");
@@ -219,6 +220,11 @@ router.get("/users/:id", function(req,res) {
 			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
 		})
 	});
+});
+
+//view all notifications
+router.get("/notifications", function(req,res) {
+	
 });
 
 module.exports = router;

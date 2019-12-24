@@ -2,6 +2,7 @@ var express = require("express"),
 	router = express.Router({mergeParams: true}),
 	Campground = require("../models/campground"),
 	Comment = require("../models/comment"),
+	Notification = require("../models/notification"),
 	middleware = require("../middleware");
 
 // comments new
@@ -42,6 +43,7 @@ router.post("/", middleware.isLoggedIn, function(req,res) {
 					//connect new comment to campground
 					campground.comments.push(comment);
 					campground.save();
+					// create new notification to campground owner
 					req.flash("success", "Successfully added comment");
 					//redirect to campground show page
 					res.redirect("/campgrounds/" + campground._id);

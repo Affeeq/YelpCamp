@@ -13,6 +13,7 @@ var express 		= require("express"),
 	Campground 		= require("./models/campground"),
 	Comment 		= require("./models/comment"),
 	User 			= require("./models/user"),
+	Notification 	= require("./models/notification"),
 	seedDB 			= require("./seeds");
 
 // requiring routes
@@ -47,6 +48,7 @@ passport.deserializeUser(User.deserializeUser());
 // passing through information to all templates/pages
 app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
+	req.locals.notification = req.notification;
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	res.locals.moment = moment;

@@ -10,6 +10,12 @@ var userSchema = new mongoose.Schema({
 	email: { type: String, unique: true, required: true },
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
+	notifications: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Notification"
+		}
+	],
 	isAdmin: {type: Boolean, default: false}
 });
 
