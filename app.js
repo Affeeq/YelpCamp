@@ -48,7 +48,6 @@ passport.deserializeUser(User.deserializeUser());
 // passing through information to all templates/pages
 app.use(function(req, res, next) {
 	res.locals.currentUser = req.user;
-	req.locals.notification = req.notification;
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	res.locals.moment = moment;
