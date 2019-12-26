@@ -224,7 +224,7 @@ router.get("/users/:id", function(req,res) {
 
 //view all notifications
 router.get("/notifications", function(req,res) {
-	
+	res.render("notification");
 });
 
 module.exports = router;

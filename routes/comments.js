@@ -49,10 +49,17 @@ router.post("/", middleware.isLoggedIn, function(req,res) {
 						username: req.user.username,
 						campgroundId: campground.author.id
 					}
-					Notification.create(newNotification, function(err, notification) {
+					Notification.create(newNotification, function(err, createdNotification) {
 						if(err) {
 							console.log(err);
 						}
+						User.findById(createdNotification.campgroundId, function(err, user) {
+							if(err) {
+								console.log(err)
+							}
+							user.notifications.push(comment.author.id);
+							user.save();
+						});
 					});
 					req.flash("success", "Successfully added comment");
 					//redirect to campground show page
