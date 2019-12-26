@@ -2,7 +2,14 @@
 	Notification
 </h1>
 
-<ul>
-	<%=  %>
-	<li></li>
-</ul>
+<div class="container">
+	<div class="row">
+		<% user.notifications.forEach(function(notification) { %>
+		<div class="col-md-12 mb-2">
+			<ul>
+				<li><%= notification.username %> commented on your post</li> <!-- can make post to be a link to campground post --> 
+			</ul>
+		</div>
+		<% }) %>
+	</div>
+</div>

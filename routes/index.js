@@ -1,6 +1,7 @@
 var express = require("express"),
 	router = express.Router(),
 	passport = require("passport"),
+	middleware = require("../middleware"),
 	User = require("../models/user"),
 	Campground = require("../models/campground"),
 	Notification = require("../models/notification"),
@@ -215,16 +216,22 @@ router.get("/users/:id", function(req,res) {
 		Campground.find().where("author.id").equals(foundUser._id).exec(function(err, campgrounds) {
 			if(err) {
 				req.flash("error", "No user found");
-				res.redirect("/");
+				return res.redirect("/");
 			}
 			res.render("users/show", {user: foundUser, campgrounds: campgrounds});
 		})
 	});
 });
 
-//view all notifications
-router.get("/notifications", function(req,res) {
-	res.render("notification");
+//show all notifications of user
+router.get("/notifications/:id", middleware.isLoggedIn, function(req,res) {
+	User.findById(req.params.id).populate("notifications").exec(function(err,foundUser) {
+		if(err) {
+			req.flash("error", "No user found");
+			return res.redirect("back");
+		}
+		res.render("notification", {user: foundUser});
+	});
 });
 
 module.exports = router;

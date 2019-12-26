@@ -53,17 +53,21 @@ router.post("/", middleware.isLoggedIn, function(req,res) {
 						if(err) {
 							console.log(err);
 						}
-						User.findById(createdNotification.campgroundId, function(err, user) {
-							if(err) {
-								console.log(err)
-							}
-							user.notifications.push(comment.author.id);
-							user.save();
-						});
+						else {
+							User.findById(createdNotification.campgroundId, function(err, user) {
+								if(err) {
+									console.log(err)
+								}
+								else {
+									user.notifications.push(comment.author.id);
+									user.save();
+									req.flash("success", "Successfully added comment");
+									//redirect to campground show page
+									res.redirect("/campgrounds/" + campground._id);
+								}
+							});
+						}
 					});
-					req.flash("success", "Successfully added comment");
-					//redirect to campground show page
-					res.redirect("/campgrounds/" + campground._id);
 				}
 			});
 		}
