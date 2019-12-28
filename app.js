@@ -46,8 +46,17 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // passing through information to all templates/pages
-app.use(function(req, res, next) {
+app.use(async function(req, res, next) {
 	res.locals.currentUser = req.user;
+	if(req.user) {
+		try {
+			var foundUser = await User.findById(req.user._id).populate("notifications").exec();
+			res.locals.notifications = foundUser.notifications
+		}
+		catch(err) {
+			console.log(err);
+		}
+	}
 	res.locals.error = req.flash("error");
 	res.locals.success = req.flash("success");
 	res.locals.moment = moment;

@@ -59,7 +59,7 @@ router.post("/", middleware.isLoggedIn, function(req,res) {
 									console.log(err)
 								}
 								else {
-									user.notifications.push(comment.author.id);
+									user.notifications.push(createdNotification);
 									user.save();
 									req.flash("success", "Successfully added comment");
 									//redirect to campground show page
