@@ -25,15 +25,16 @@
 							<li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
 							<li class="nav-item"><a class="nav-link" href="/register">Sign Up</a></li>
 						<% } else { %>
-						<%= console.log(notifications) %>
-							<div class="btn-group">
+							<div class="btn-group dropleft">
 								<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									Notifications
 								</button>
 								<div class="dropdown-menu">
 									<a class="dropdown-item" href="/notifications/<%= currentUser._id %>">View Past Notification</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">Separated link</a>
+									<% notifications.forEach(function(notification) { %>
+										<a class="dropdown-item" href="#"><%= notification.username %> just commented on your post</a>
+									<% }) %>
 								</div>
 							</div>	
 							<li class="nav-item"><a class="nav-link" href="/users/<%= currentUser._id %>"><%= currentUser.username %></a></li>
