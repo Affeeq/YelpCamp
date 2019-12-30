@@ -47,7 +47,7 @@ router.post("/", middleware.isLoggedIn, function(req,res) {
 					//create new notification in db 
 					var newNotification = {
 						username: req.user.username,
-						authorId: req.user._id,
+						authorId: campground.author.id,
 						campgroundId: campground._id
 					}
 					Notification.create(newNotification, function(err, createdNotification) {
