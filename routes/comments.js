@@ -47,14 +47,16 @@ router.post("/", middleware.isLoggedIn, function(req,res) {
 					//create new notification in db 
 					var newNotification = {
 						username: req.user.username,
-						campgroundId: campground.author.id
+						authorId: req.user._id,
+						campgroundId: campground._id
 					}
 					Notification.create(newNotification, function(err, createdNotification) {
 						if(err) {
-							console.log(err);
+							req.flash("error", err.message);
+							return res.redirect("back");
 						}
 						else {
-							User.findById(createdNotification.campgroundId, function(err, user) {
+							User.findById(createdNotification.authorId, function(err, user) {
 								if(err) {
 									console.log(err)
 								}
