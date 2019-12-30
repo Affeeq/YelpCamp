@@ -8,9 +8,8 @@
 	<div class="row">
 		<div class="col-md-12 mb-2">
 			<ul>
-				<%= console.log(user) %>
 				<% user.notifications.reverse().forEach(function(notification) { %>
-					<li><%= notification.username %> just commented on your <a href="/notifications/<%= notification.authorId %>">post</a></li> 
+					<li><%= notification.username %> just commented on your <a href="/notifications/<%= notification._id %>">post</a></li> 
 				<% }) %>
 			</ul>
 		</div>

@@ -227,9 +227,11 @@ router.get("/users/:id", function(req,res) {
 router.get("/notifications", middleware.isLoggedIn,async function(req,res) {
 	try {
 		var foundUser = await User.findById(req.user._id).populate("notifications").exec();
-		console.log(foundUser)
 		await foundUser.notifications.forEach(function(notification) {
-			var updatedNotification = Notification.findByIdAndUpdate(notification._id, { $set: { "isRead": true } }).exec();
+			if(notification.isRead === false) {
+				notification.isRead = true;
+				notification.save();
+			}
 		});
 		res.render("notification", {user: foundUser});
 	}
@@ -241,8 +243,8 @@ router.get("/notifications", middleware.isLoggedIn,async function(req,res) {
 
 router.get("/notifications/:id", middleware.isLoggedIn,async function(req,res) {
 	try {
-		var foundNotification = Notification.findById(req.params.id)
-		res.render("campgrounds/" + foundNotification.campgroundId);
+		var foundNotification = await Notification.findByIdAndUpdate(req.params.id, { $set: { "isRead": true } }).exec();
+		res.redirect("/campgrounds/" + foundNotification.campgroundId);
 	}
 	catch(err) {
 		req.flash("error", "No user found");
