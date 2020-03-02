@@ -1,6 +1,16 @@
 # YelpCamp
 The final project of Colt Steele's Web Developer Bootcamp
 
+Link: https://yelpcamp-v1-deployed.herokuapp.com/
+
+## Demo Account
+#username: demo
+#password: demo123
+
+## Demo Admin Account
+#username: admin
+#password: admin123
+
 About: A project that works similarly to Yelp - allows user to post their favorite campsites around the world. It gives them the ability to post or delete their post and comments on a campsite.
 
 Front end: HTML5, CSS3, Javascript, Bootstrap, jQuery
