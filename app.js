@@ -23,7 +23,8 @@ var campgroundRoutes 	= require("./routes/campgrounds"),
 
 // app config
 mongoose.set('useUnifiedTopology', true);
-mongoose.connect("mongodb://localhost:27017/yelp_camp", { useNewUrlParser: true }); // connecting to db collection
+var url = process.env.DATABASEURL || "mongodb://localhost:27017/yelp_camp" //database url
+mongoose.connect(url, { useNewUrlParser: true }); // connecting to db collection
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 mongoose.set('useFindAndModify', false); // took out the deprecation warning when updating forms
@@ -68,6 +69,6 @@ app.use("/" ,indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 
-app.listen(3000 || process.env.PORT, function() {
+app.listen(process.env.PORT || 3000, function() {
 	console.log("The YelpCamp server listening on port 3000");
 });
