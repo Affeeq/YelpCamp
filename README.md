@@ -22,4 +22,4 @@ Features: User Authorization, Google Map, Forgot Password Link, Fuzzy Campsite S
 Dependencies: Async, Body-Parser, Cloudinary, Connect-flash, Cookie-parser, dotenv, ejs, express, express-session, locus, method-override, moment, mongoose, multer, node-geocoder, nodemailer, nodemon, passport, passport-local, passport-local-mongoose
 
 ## To check the YelpCamp simple version with rating system, pagination, collapsible comment
-Link: [YelpCamp Rating System, Pagination, Collapsible Comment](github.com/Affeeq/YelpCamp-Ratings-Pagination-Collapsible-Comment-Section-)
+Link: [YelpCamp Rating System, Pagination, Collapsible Comment](https://github.com/Affeeq/YelpCamp-Ratings-Pagination-Collapsible-Comment-Section-)
