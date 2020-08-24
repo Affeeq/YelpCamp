@@ -1,5 +1,5 @@
 # YelpCamp
-The final project of Colt Steele's Web Developer Bootcamp
+A Yelp-like website that allows user to post campsites and comments on those posts
 
 Link: https://yelpcamp-v1-deployed.herokuapp.com/
 
