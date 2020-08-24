@@ -4,8 +4,8 @@ The final project of Colt Steele's Web Developer Bootcamp
 Link: https://yelpcamp-v1-deployed.herokuapp.com/
 
 ## Demo Account
-#username: demo
-#password: demo123
+username: demo
+password: demo123
 
 ## Demo Admin Account
 username: admin
